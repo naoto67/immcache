@@ -8,5 +8,6 @@ type ICache interface {
 	MultiGet(keys []string) ([][]byte, error)
 	SingleDelete(key string) error
 	MultiDelete(keys []string) error
+	Increment(key string, delta uint64) (int, error)
 	Flush() error
 }

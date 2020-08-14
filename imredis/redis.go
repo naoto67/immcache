@@ -84,6 +84,21 @@ func (rc *redisClient) SingleSetNX(key string, value []byte) (int, error) {
 	return ok, nil
 }
 
+func (rc *redisClient) Increment(key string, delta uint64) (int, error) {
+	conn := rc.pool.Get()
+	defer conn.Close()
+	length, _ := redis.Int(conn.Do("STRLEN", key))
+	if length <= 0 {
+		return 0, redis.ErrNil
+	}
+
+	ok, err := redis.Int(conn.Do("INCRBY", key, delta))
+	if err != nil {
+		return 0, err
+	}
+	return ok, nil
+}
+
 func (rc *redisClient) Flush() error {
 	conn := rc.pool.Get()
 	defer conn.Close()

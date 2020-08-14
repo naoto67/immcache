@@ -86,6 +86,14 @@ func (mc *memcacheClient) SingleSetNX(key string, value []byte) (int, error) {
 	return 1, nil
 }
 
+func (mc *memcacheClient) Increment(key string, delta uint64) (int, error) {
+	v, err := mc.client.Increment(key, delta)
+	if err != nil {
+		return 0, err
+	}
+	return int(v), nil
+}
+
 func (mc *memcacheClient) Flush() error {
 	return mc.client.FlushAll()
 }

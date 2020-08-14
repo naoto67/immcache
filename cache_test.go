@@ -71,6 +71,14 @@ func TestAll(t *testing.T) {
 			},
 		},
 		TestCase{
+			name: "SingleGet: not exists key",
+			call: func(t *testing.T) {
+				res, err := Client.SingleGet("key100")
+				assert.NotNil(t, err)
+				assert.Nil(t, res)
+			},
+		},
+		TestCase{
 			name: "MultiSet",
 			call: func(t *testing.T) {
 				err := Client.MultiSet(map[string][]byte{"key1": []byte("\"name\""), "key2": []byte("\"name\"")})
@@ -119,12 +127,30 @@ func TestAll(t *testing.T) {
 				assert.Nil(t, err)
 			},
 		},
+		TestCase{
+			name: "Increment",
+			call: func(t *testing.T) {
+				_, err := Client.Increment("keyInt", 3)
+				assert.Nil(t, err)
+			},
+		},
+		TestCase{
+			name: "Increment: not exists key",
+			call: func(t *testing.T) {
+				_, err := Client.Increment("keyIntNil", 3)
+				assert.NotNil(t, err)
+			},
+		},
 	}
 
 	for _, testCase := range testCases {
 		for _, Client = range ClientSet {
 			// fixtures
-			Client.MultiSet(map[string][]byte{"key1": []byte("\"name\""), "key2": []byte("\"name\"")})
+			Client.MultiSet(map[string][]byte{
+				"key1":   []byte("\"name\""),
+				"key2":   []byte("\"name\""),
+				"keyInt": []byte("1"),
+			})
 			t.Run(testCase.name, testCase.call)
 			Client.Flush()
 		}
