@@ -57,6 +57,22 @@ func (rc *redisClient) MultiGet(keys []string) ([][]byte, error) {
 	return redis.ByteSlices(conn.Do("MGET", redis.Args{}.AddFlat(keys)...))
 }
 
+func (rc *redisClient) SingleDelete(key string) error {
+	conn := rc.pool.Get()
+	defer conn.Close()
+
+	_, err := conn.Do("DEL", key)
+	return err
+}
+
+func (rc *redisClient) MultiDelete(keys []string) error {
+	conn := rc.pool.Get()
+	defer conn.Close()
+
+	_, err := conn.Do("DEL", redis.Args{}.AddFlat(keys)...)
+	return err
+}
+
 func (rc *redisClient) Flush() error {
 	conn := rc.pool.Get()
 	defer conn.Close()

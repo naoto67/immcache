@@ -71,3 +71,27 @@ func Test_MultiGet(t *testing.T) {
 		assert.Nil(t, err)
 	})
 }
+
+func Test_Delete(t *testing.T) {
+	t.Run("del", func(t *testing.T) {
+		err := Client.SingleDelete("key1")
+		assert.Nil(t, err)
+	})
+
+	t.Run("del key nil", func(t *testing.T) {
+		err := Client.SingleDelete("key1000")
+		assert.Nil(t, err)
+	})
+}
+
+func Test_MultiDelete(t *testing.T) {
+	t.Run("mdel", func(t *testing.T) {
+		err := Client.MultiDelete([]string{"key1", "key2"})
+		assert.Nil(t, err)
+	})
+
+	t.Run("mdel include nil", func(t *testing.T) {
+		err := Client.MultiDelete([]string{"key1", "key2", "key3"})
+		assert.Nil(t, err)
+	})
+}

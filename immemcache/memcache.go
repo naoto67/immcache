@@ -62,6 +62,19 @@ func (mc *memcacheClient) MultiGet(keys []string) ([][]byte, error) {
 	return res, nil
 }
 
+func (mc *memcacheClient) SingleDelete(key string) error {
+	mc.client.Delete(key)
+	return nil
+}
+
+func (mc *memcacheClient) MultiDelete(keys []string) error {
+	for _, key := range keys {
+		mc.SingleDelete(key)
+	}
+
+	return nil
+}
+
 func (mc *memcacheClient) Flush() error {
 	return mc.client.FlushAll()
 }
