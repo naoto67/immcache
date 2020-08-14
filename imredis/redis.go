@@ -73,10 +73,21 @@ func (rc *redisClient) MultiDelete(keys []string) error {
 	return err
 }
 
+func (rc *redisClient) SingleSetNX(key string, value []byte) (int, error) {
+	conn := rc.pool.Get()
+	defer conn.Close()
+
+	ok, err := redis.Int(conn.Do("SETNX", key, value))
+	if err != nil {
+		return 0, err
+	}
+	return ok, nil
+}
+
 func (rc *redisClient) Flush() error {
 	conn := rc.pool.Get()
 	defer conn.Close()
 
-	_, err := conn.Do("FLUSH")
+	_, err := conn.Do("FLUSHALL")
 	return err
 }

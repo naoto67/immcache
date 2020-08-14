@@ -75,6 +75,17 @@ func (mc *memcacheClient) MultiDelete(keys []string) error {
 	return nil
 }
 
+func (mc *memcacheClient) SingleSetNX(key string, value []byte) (int, error) {
+	err := mc.client.Add(&memcache.Item{Key: key, Value: value})
+	if err == memcache.ErrNotStored {
+		return 0, nil
+	}
+	if err != nil {
+		return 0, err
+	}
+	return 1, nil
+}
+
 func (mc *memcacheClient) Flush() error {
 	return mc.client.FlushAll()
 }
