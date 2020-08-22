@@ -22,7 +22,7 @@ func NewMemcache(protocol, host string) *memcacheClient {
 	}
 }
 
-func (mc *memcacheClient) FetchConn() *memcache.Client {
+func (mc *memcacheClient) FetchConn() interface{} {
 	return mc.client
 }
 

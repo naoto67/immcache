@@ -23,7 +23,7 @@ func NewRedis(protocol, server string) *redisClient {
 	}
 }
 
-func (rc *redisClient) FetchConn() redis.Conn {
+func (rc *redisClient) FetchConn() interface{} {
 	return rc.pool.Get()
 }
 

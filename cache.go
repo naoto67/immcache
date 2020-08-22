@@ -10,4 +10,6 @@ type ICache interface {
 	MultiDelete(keys []string) error
 	Increment(key string, delta uint64) (int, error)
 	Flush() error
+
+	FetchConn() interface{}
 }

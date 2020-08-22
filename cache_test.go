@@ -142,6 +142,13 @@ func TestAll(t *testing.T) {
 				assert.NotNil(t, err)
 			},
 		},
+		TestCase{
+			name: "FetchConn",
+			call: func(t *testing.T) {
+				conn := Client.FetchConn()
+				assert.NotNil(t, conn)
+			},
+		},
 	}
 
 	for _, testCase := range testCases {
