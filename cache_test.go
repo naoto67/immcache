@@ -130,8 +130,9 @@ func TestAll(t *testing.T) {
 		TestCase{
 			name: "Increment",
 			call: func(t *testing.T) {
-				_, err := Client.Increment("keyInt", 3)
+				val, err := Client.Increment("keyInt", 3)
 				assert.Nil(t, err)
+				assert.Equal(t, 4, val)
 			},
 		},
 		TestCase{
