@@ -43,3 +43,16 @@ type ICache interface {
 	Flush() error
 }
 ```
+
+### 注意点
+
+MultiGetをする時、一部nilの要素が含まれる場合があるため、nilはスキップしてパースする必要がある
+```
+res, _ := MultiGet([]string{"aaa", "bbb"})
+for i := range res {
+  if res[i] == nil {
+    continue
+  }
+  json.Marshal...
+}
+```
