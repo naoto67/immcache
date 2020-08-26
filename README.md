@@ -22,14 +22,14 @@ cacheClient.SingleSet("key", data)
 // var cacheClient *redisClient
 // cacheClient = NewRedis("tcp", "localhost:6379")
 var cacheClient *memcacheClient
-cacheClient = NewMemcache("tcp", "localhost:6379")
+cacheClient = NewMemcache("tcp", "localhost:")
 
 data := []byte("1")
 cacheClient.SingleSet("key", data)
 ```
 
 ### cacheClientのインターフェース
-redisClientとmemcacheClientはそれぞれFetchConnというレスポンスの型が違うものが存在するため、一旦このInterfaceを使用していない。
+redisClientとmemcacheClientはそれぞれFetchConnというレスポンスの型が違うものが存在するため、一旦このmain.goではInterfaceを使用していない。
 ```
 type ICache interface {
 	SingleSet(key string, value []byte) error
